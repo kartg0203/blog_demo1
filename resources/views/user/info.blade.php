@@ -17,12 +17,31 @@
                 <div class="py-3 border-bottom">修改個人信息</div>
                 <div class="user-data py-4">
                     <div class="row">
-                        <div class="col-md-5 offset-3">
-                            <form action="">
+                        <div class="col-md-5 mx-auto">
+                            {{-- @include('components.error') --}}
+                            @include('components.success')
+                            @include('components.warning')
+                            <form action="{{ route('user.info.update') }}" method="POST" novalidate>
+                                @csrf
+                                @method('PUT')
                                 <label for="" class="form-label fw-bold">用戶名</label>
-                                <input type="text" class="form-control" value="test">
+                                <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
+                                    value="{{ auth()->user()->name }}" placeholder="請輸入用戶名">
+                                {{-- <input type="text" name="name" class="form-control @if ($errors->has('name')) is-invalid @endif"
+                                value="{{ auth()->user()->name }}" placeholder="請輸入用戶名"> --}}
+                                @error('name')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                                 <label for="" class="form-label fw-bold mt-3">信箱</label>
-                                <input type="email" name="" class="form-control" value="eeeee">
+                                <input type="email" name="email" class="form-control @error('email') is-invalid @enderror"
+                                    value="{{ auth()->user()->email }}" placeholder="請輸入信箱">
+                                @error('email')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                                 <div class="d-grid mt-4">
                                     <button type="submit" class="btn  btn-primary btn-sm">修改</button>
                                 </div>

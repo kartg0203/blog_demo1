@@ -10,8 +10,9 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::view('login/page', 'login.login')->name('login');
-Route::view('register/page', 'login.register')->name('register');
+// Route::view('login/page', 'login.login');
+// Route::view('register/page', 'login.register');
+Route::any('test', TestController::class);
 
 // 首頁
 Route::get('/', [IndexController::class, 'index'])->name('index');
@@ -22,23 +23,47 @@ route::patch('blogs/{id}', [BlogController::class, 'status'])->name('blogs.statu
 // blog資源控制器
 Route::resource('blogs', BlogController::class)->except(['index']);
 
+// 要登入(驗證)才可以訪問以下路由，沒登入就redirect到登入畫面
+Route::middleware('auth')->group(function () {
+
+    // 使用前綴路由+前綴名+群組組合起來，可以嵌套
+    Route::prefix('blogs')->name('blogs.')->group(function () {
+        // 改變文章狀態，發布或不發布
+        Route::patch('{id}', [BlogController::class, 'status'])->name('status');
+        // 評論路由
+        Route::post('{id}/comment', CommentController::class)->name('comment');
+    });
+
+    // 使用前綴路由+前綴名+群組組合起來，可以嵌套
+    Route::prefix('user')->name('user.')->group(function () {
+        // 個人中心-個人信息-頁面
+        Route::get('', [UserController::class, 'infoPage'])->name('info');
+        // 個人中心-個人信息-更新數據
+        Route::put('', [UserController::class, 'infoUpdate'])->name('info.update');
+        // 個人中心-頭像-頁面
+        Route::get('avatar', [UserController::class, 'avatarPage'])->name('avatar');
+        // 個人中心-頭像-更新頭像
+        Route::patch('avatar', [UserController::class, 'avatarUpdate'])->name('avatar.update');
+        // 個人中心-所有blog
+        Route::get('blog', [UserController::class, 'blog'])->name('blog');
+    });
+});
+
 // 個人中心-個人信息-頁面
-Route::get('user', [UserController::class, 'infoPage'])->name('user.info');
+// Route::get('user', [UserController::class, 'infoPage'])->name('user.info');
 
 // 個人中心-個人信息-更新數據
-Route::put('user', [UserController::class, 'infoUpdate'])->name('user.update');
+// Route::put('user', [UserController::class, 'infoUpdate'])->name('user.info.update');
 
 // 個人中心-頭像-頁面
-Route::get('user/avatar', [UserController::class, 'avatarPage'])->name('user.avatar');
+// Route::get('user/avatar', [UserController::class, 'avatarPage'])->name('user.avatar');
 
 // 個人中心-頭像-更新頭像
-Route::patch('user/avatar', [UserController::class, 'avatarUpdate'])->name('user.avatar.update');
+// Route::patch('user/avatar', [UserController::class, 'avatarUpdate'])->name('user.avatar.update');
 
 // 個人中心-所有blog
-Route::get('user/blog', [UserController::class, 'blog'])->name('user.blog');
+// Route::get('user/blog', [UserController::class, 'blog'])->name('user.blog');
 
-// 評論路由
-Route::post('blogs/{id}/comment', CommentController::class)->name('blogs.comment');
 
 // ********************************************************
 // Route::get('/', function () {
@@ -107,3 +132,7 @@ Route::post('blogs/{id}/comment', CommentController::class)->name('blogs.comment
 // })->name('user.blog');
 
 // 登入註冊會使用laravel內建的，就不寫路由了
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');

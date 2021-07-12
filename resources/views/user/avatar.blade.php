@@ -19,9 +19,17 @@
                 <div class="user-data py-4">
                     <div class="row">
                         <div class="col-md-5 offset-3">
-                            <form action="">
+                            @include('components.warning')
+                            @include('components.success')
+                            <form action="{{ route('user.avatar.update') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                @method('patch')
                                 <label for="formFile" class="form-label">請選擇圖片</label>
-                                <input class="form-control" type="file" id="formFile">
+                                <input class="form-control @error('avatar') is-invalid @enderror" type="file" id="formFile"
+                                    name="avatar">
+                                @error('avatar')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                                 <div class="d-grid mt-4">
                                     <button type="submit" class="btn  btn-primary btn-sm">修改</button>
                                 </div>

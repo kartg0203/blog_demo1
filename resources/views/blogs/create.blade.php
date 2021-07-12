@@ -34,10 +34,10 @@
                             </div>
                             <div class="my-4">
                                 <select class="form-select form-select-lg" aria-label="Default select example" name="type">
-                                    <option selected>請選擇分類</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                    <option value="0" selected>請選擇分類</option>
+                                    @foreach ($categories as $id => $categories);
+                                        <option value="{{ $id }}">{{ $categories }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="form-floating">
