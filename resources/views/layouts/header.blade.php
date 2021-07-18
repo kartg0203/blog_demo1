@@ -7,6 +7,21 @@
               Menu
               <i class="fas fa-bars"></i>
           </button>
+          @isset($categories)
+              <form action="{{ route('index') }}" method="GET" class="d-flex">
+                  <input type="text" class="form-control form-control-sm rounded" style="width: 190px;"
+                      placeholder="請輸入搜索名稱" name="keyword" value="{{ request()->query('keyword') }}">
+                  <select class="form-select form-select-sm ms-1 rounded" aria-label="Default select example"
+                      name="category_id" style="width: 120px;">
+                      <option value="0">請選擇分類</option>
+                      @foreach ($categories as $id => $categories);
+                          <option value="{{ $id }}" @if (request()->query('category_id') == $id) selected @endif>
+                              {{ $categories }}</option>
+                      @endforeach
+                  </select>
+                  <button class="btn btn-sm" type="submit"><i class="fas fa-search"></i></button>
+              </form>
+          @endisset
           <div class="collapse navbar-collapse" id="navbarResponsive">
               <ul class="navbar-nav ms-auto py-4 py-lg-0">
                   <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ route('index') }}">Home</a>
@@ -63,8 +78,18 @@
           <div class="row gx-4 gx-lg-5 justify-content-center">
               <div class="col-md-10 col-lg-8 col-xl-7">
                   <div class="site-heading">
-                      <h1>{{ $heading }}</h1>
-                      <span class="subheading">{{ $subheading }}</span>
+                      <h2>{{ $heading }}</h2>
+                      <div>
+                          @isset($view)
+                              <span class="me-4"><i class="far fa-eye me-2"></i>{{ $view }}</span>
+                          @endisset
+                          @isset($comment)
+                              <span><i class="far fa-comments me-2"></i>222</span>
+                          @endisset
+                      </div>
+                      <p class="subheading fs-5">
+                          {{ $subheading }}
+                      </p>
                   </div>
               </div>
           </div>

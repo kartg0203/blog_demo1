@@ -31,7 +31,7 @@ Route::middleware('auth')->group(function () {
         // 改變文章狀態，發布或不發布
         Route::patch('{id}', [BlogController::class, 'status'])->name('status');
         // 評論路由
-        Route::post('{id}/comment', CommentController::class)->name('comment');
+        Route::post('{blog}/comment', CommentController::class)->name('comment');
     });
 
     // 使用前綴路由+前綴名+群組組合起來，可以嵌套

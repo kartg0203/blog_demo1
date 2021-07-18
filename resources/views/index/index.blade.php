@@ -15,24 +15,31 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <!-- Post preview-->
-                @for ($i = 0; $i < 6; $i++)
+                @foreach ($blogs as $blog)
                     <div class="post-preview">
-                        <a href="{{ route('blogs.show', ['blog' => 1]) }}">
-                            <h2 class="post-title">Man must explore, and this is exploration at its greatest</h2>
-                            <h3 class="post-subtitle">Problems look mighty small from 150 miles up</h3>
+                        <a href="{{ route('blogs.show', $blog) }}">
+                            <h2 class="">{{ $blog->title }}</h2>
+                            <div class="post-subtitle">{{ mb_substr($blog->content, 0, 30, 'utf-8') }}...</div>
                         </a>
-                        <p class="post-meta">
-                            Posted by
-                            <a href="#!">Start Bootstrap</a>
-                            on September 24, 2021
+                        <p class="post-meta d-flex justify-content-between">
+                            <span class="badge bg-primary">{{ $blog->category->name }}</span>
+                            <span>
+                                作者：<span class="font-weight-bold">{{ $blog->user->name }}</span>
+                                最新回復：{{ $blog->updated_at->diffForHumans() }}
+                            </span>
                         </p>
                     </div>
                     <!-- Divider-->
                     <hr class="my-4" />
                     <!-- Pager-->
-                @endfor
-                <div class="d-flex justify-content-end mb-4"><a class="btn btn-primary text-uppercase" href="#!">Older Posts
-                        →</a></div>
+                @endforeach
+                <div class="d-flex justify-content-between mb-4">
+                    <span>文章總數：{{ $blogs->total() }}</span>
+                    <span>
+                        {{-- {{ $blogs->appends(['keyword' => request()->query('keyword')])->links() }} --}}
+                        {{ $blogs->withQueryString()->links() }}
+                    </span>
+                </div>
             </div>
         </div>
     </div>

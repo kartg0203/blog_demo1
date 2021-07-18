@@ -25,53 +25,70 @@
                         <!-- To make this form functional, sign up at-->
                         <!-- https://startbootstrap.com/solution/contact-forms-->
                         <!-- to get an API token!-->
-                        <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                        @include('components.success')
+                        @include('components.warning')
+                        <form id="contactForm" action="{{ route('blogs.update', $blog) }}" method="POST">
+                            @csrf
+                            @method('PUT')
                             <div class="form-floating">
-                                <input class="form-control" id="title" type="text" placeholder="Enter your title..."
-                                    data-sb-validations="required" name="title" value="第一個blog" />
+                                <input class="form-control @error('title') is-invalid @enderror" id="title" type="text"
+                                    placeholder="請輸入標題" data-sb-validations="required" name="title"
+                                    value="{{ $blog->title }}" />
                                 <label for="title">標題</label>
-                                <div class="invalid-feedback" data-sb-feedback="name:required">A title is required.</div>
-                            </div>
-                            <div class="my-4">
-                                <select class="form-select form-select-lg" aria-label="Default select example" name="type">
-                                    <option value="0" selected>請選擇分類</option>
-                                    @foreach ($categories as $id => $categories);
-                                        <option value="{{ $id }}">{{ $categories }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="form-floating">
-                                <textarea class="form-control" id="content" placeholder="Enter your content here..."
-                                    style="height: 12rem"
-                                    data-sb-validations="required">【歌枠 / 睡眠誘導】睡眠トリガーになる癒しのピアノ歌枠🌙✨🎹【華月みくる / Vtuber】</textarea>
-                                <label for="content">內容</label>
-                                <div class="invalid-feedback" data-sb-feedback="message:required">A content is required.
+                                @error('title')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                                <div class="my-4">
+                                    <select class="form-select form-select-lg @error('category_id') is-invalid @enderror"
+                                        aria-label="Default select example" name="category_id">
+                                        <option value="0">請選擇分類</option>
+                                        @foreach ($categories as $id => $categories);
+                                            <option value="{{ $id }}" @if ($blog->category_id == $id) selected @endif>
+                                                {{ $categories }}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('category_id')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
-                            </div>
-                            <br />
-                            <!-- Submit success message-->
-                            <!---->
-                            <!-- This is what your users will see when the form-->
-                            <!-- has successfully submitted-->
-                            <div class="d-none" id="submitSuccessMessage">
-                                <div class="text-center mb-3">
-                                    <div class="fw-bolder">Form submission successful!</div>
-                                    To activate this form, sign up at
-                                    <br />
-                                    <a
-                                        href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                                <div class="form-floating">
+                                    <textarea class="form-control @error('content') is-invalid @enderror" id="content"
+                                        name="content" placeholder="請輸入內容" style="height: 12rem"
+                                        data-sb-validations="required">{{ $blog->content }}</textarea>
+                                    <label for="content">內容</label>
+                                    @error('content')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
-                            </div>
-                            <!-- Submit error message-->
-                            <!---->
-                            <!-- This is what your users will see when there is-->
-                            <!-- an error submitting the form-->
-                            <div class="d-none" id="submitErrorMessage">
-                                <div class="text-center text-danger mb-3">Error sending message!</div>
-                            </div>
-                            <!-- Submit Button-->
-                            <button class="btn btn-primary text-uppercase disabled" id="submitButton"
-                                type="submit">確定送出</button>
+                                <br />
+                                <!-- Submit success message-->
+                                <!---->
+                                <!-- This is what your users will see when the form-->
+                                <!-- has successfully submitted-->
+                                <div class="d-none" id="submitSuccessMessage">
+                                    <div class="text-center mb-3">
+                                        <div class="fw-bolder">Form submission successful!</div>
+                                        To activate this form, sign up at
+                                        <br />
+                                        <a
+                                            href="https://startbootstrap.com/solution/contact-forms">https://startbootstrap.com/solution/contact-forms</a>
+                                    </div>
+                                </div>
+                                <!-- Submit error message-->
+                                <!---->
+                                <!-- This is what your users will see when there is-->
+                                <!-- an error submitting the form-->
+                                <div class="d-none" id="submitErrorMessage">
+                                    <div class="text-center text-danger mb-3">Error sending message!</div>
+                                </div>
+                                <!-- Submit Button-->
+                                <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">確定送出</button>
                         </form>
                     </div>
                 </div>

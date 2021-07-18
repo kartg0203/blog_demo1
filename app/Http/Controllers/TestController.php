@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderShipped;
 use App\Models\Flight;
 use App\Models\Store;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class TestController extends Controller
@@ -72,10 +74,17 @@ class TestController extends Controller
         // $flight->getOriginal(); // 原始属性数组
 
         // 查
-        Flight::all();
-        Flight::get();
-        Flight::where('name', 'xxx')->first();
-        Flight::firstWhere('name', 'xxx'); //簡寫
-        Flight::find(1);
+        // Flight::all();
+        // Flight::get();
+        // Flight::where('name', 'xxx')->first();
+        // Flight::firstWhere('name', 'xxx'); //簡寫
+        // Flight::find(1);
+
+        // 預加載
+        // $users = User::with('blogs')->get();
+
+        // dd($users);
+
+        Mail::to('kartg0102@gmail.com')->send(new OrderShipped('hello'));
     }
 }
