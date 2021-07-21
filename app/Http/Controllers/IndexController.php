@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Blog;
+use GlobIterator;
 use Illuminate\Http\Request;
 
 class IndexController extends Controller
 {
     public function index(Request $request)
     {
+
         // dd($request->query('category_id'));
         // 搜尋關鍵字
         $keyword = $request->query('keyword');

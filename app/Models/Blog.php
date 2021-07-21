@@ -25,4 +25,12 @@ class Blog extends Model
     {
         return $this->hasMany(Comment::class);
     }
+
+    //事件，就像是生命週期事件一樣
+    // protected static function booted()
+    // {
+    //     static::deleted(function ($blog) {
+    //         info('您刪除了blog：' . $blog->title);
+    //     });
+    // }
 }

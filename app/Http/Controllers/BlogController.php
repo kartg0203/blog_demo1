@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BlogRequest;
 use App\Models\Blog;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -141,9 +142,17 @@ class BlogController extends Controller
     /**
      *改變blog狀態，發布or不發布
      */
-    public function status($id)
+    public function status(Blog $blog)
     {
-        dd($id);
+        $blog->status = ($blog->status == 1) ? 0 : 1;
+        $res = $blog->save();
+
+        if ($res) {
+            $msg = ($blog->status == 1) ? '發布成功' : '取消發布';
+            return response()->json(['state' => true, 'msg' => $msg]);
+        } else {
+            return response()->json(['state' => false, 'msg' => '修改失敗']);
+        }
     }
 
     /**
@@ -152,9 +161,34 @@ class BlogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Blog $blog)
     {
-        //
+        // 使用模型事件，刪除blog時自動刪除相關留言
+        $res = $blog->delete();
+
+        if ($res) {
+            return response()->json(['state' => true, 'msg' => '刪除成功']);
+        } else {
+            return response()->json(['state' => false, 'msg' => '刪除失敗']);
+        }
+
+
+        // 使用事務刪除blog
+        // DB::beginTransaction();
+        // try {
+        //     // 刪除blog
+        //     $blog->delete();
+        //     // 刪除blog相關留言
+        //     $blog->comments()->delete();
+
+        //     DB::commit();
+
+        //     return response()->json(['state' => true, 'msg' => '刪除成功']);
+        // } catch (\Exception $e) {
+        //     // 出現異常，回滾事務
+        //     DB::rollBack();
+        //     return response()->json(['state' => false, 'msg' => '刪除失敗']);
+        // }
     }
 
     // function categories()

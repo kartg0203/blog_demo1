@@ -120,6 +120,9 @@ class UserController extends Controller
 
     public function blog()
     {
-        return view('user.blog');
+
+        $blogs = auth()->user()->blogs()->withCount('comments')->latest()->paginate(5);
+        // dd($blogs);
+        return view('user.blog', ['blogs' => $blogs]);
     }
 }

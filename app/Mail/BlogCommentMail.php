@@ -7,21 +7,19 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderShipped extends Mailable
+class BlogCommentMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-
-    protected $str;
+    protected $comment;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($str)
+    public function __construct($comment)
     {
-
-        $this->str = $str;
+        $this->comment = $comment;
     }
 
     /**
@@ -31,8 +29,6 @@ class OrderShipped extends Mailable
      */
     public function build()
     {
-        // dd($this->str);
-        // 執行這裡的邏輯
-        return $this->view('emails.order', ['str' => $this->str]);
+        return $this->view('emails.blogComment', ['comment' => $this->comment]);
     }
 }

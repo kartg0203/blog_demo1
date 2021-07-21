@@ -7,6 +7,7 @@
     ['img' => '/assets/img/post-bg.jpg',
     'heading' => "【".$blog->category->name."】" . $blog->title,
     'view' => $blog->view,
+    'comment' => $blog->comments()->count(),
     'subheading' => $blog->created_at->format('Y年 m月 d日') . ""])
 @endsection
 
@@ -19,8 +20,14 @@
                     @include('components.success')
                     @include('components.warning')
                     {!! nl2br($blog->content) !!}
-                    <p>
+                    <p class="d-flex">
                         作者：{{ $blog->user->name }}
+                        @if (auth()->id() == $blog->user_id)
+                            <span class="ms-5">
+                                <a href="{{ route('blogs.edit', $blog) }}"
+                                    class="btn btn-sm btn-outline-primary rounded">編輯</a>
+                            </span>
+                        @endif
                     </p>
                 </div>
                 <div class="col-md-3 border text-center h-100 py-3">
@@ -92,6 +99,8 @@
                                 @include('components.warning')
                                 <div class="card-body">
                                     <textarea name="content" id="content" cols="30" rows="5" class="form-control"></textarea>
+                                    <div id="invalid-feedback" class="invalid-feedback">
+                                    </div>
                                     <div class="d-flex justify-content-end mt-3">
                                         <button id="btn-comment" type="button" class="btn btn-primary btn-sm">送出</button>
                                     </div>
@@ -124,7 +133,6 @@
                 })
                 .then(res => {
                     if (res.data.state) {
-
                         notify(res.data.msg, 'success');
                         const user_name = res.data.data['user_name'];
                         const user_avatar = res.data.data['user_avatar'];
@@ -144,12 +152,23 @@
                         if (empty) {
                             empty.style.cssText = 'display:none;';
                         }
+
+                        // 假如留言有is-invalid就remove掉
+                        if (content.classList.contains('is-invalid')) {
+                            content.classList.remove('is-invalid');
+                        }
                     } else {
                         alert(res.data.msg);
                     }
                 })
                 .catch(error => {
-                    console.log(error);
+                    // console.log(error.response.data.errors.content);
+                    const errorMsg = error.response.data.errors.content;
+                    content.classList.add('is-invalid');
+                    // console.log(content.classList.contains('is-invalid'));
+                    const invalidFeedback = document.
+                    getElementById('invalid-feedback').innerHTML = errorMsg;
+                    // console.log(content );
                 });
         });
     }

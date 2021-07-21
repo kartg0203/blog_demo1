@@ -18,7 +18,7 @@ Route::any('test', TestController::class);
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
 //改變blog狀態，發布or不發布
-route::patch('blogs/{id}', [BlogController::class, 'status'])->name('blogs.status');
+// route::patch('blogs/{id}', [BlogController::class, 'status'])->name('blogs.status');
 
 // blog資源控制器
 Route::resource('blogs', BlogController::class)->except(['index']);
@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
     // 使用前綴路由+前綴名+群組組合起來，可以嵌套
     Route::prefix('blogs')->name('blogs.')->group(function () {
         // 改變文章狀態，發布或不發布
-        Route::patch('{id}', [BlogController::class, 'status'])->name('status');
+        Route::patch('{blog}/status', [BlogController::class, 'status'])->name('status');
         // 評論路由
         Route::post('{blog}/comment', CommentController::class)->name('comment');
     });

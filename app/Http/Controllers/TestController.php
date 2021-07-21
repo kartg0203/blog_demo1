@@ -6,6 +6,7 @@ use App\Mail\OrderShipped;
 use App\Models\Flight;
 use App\Models\Store;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -85,6 +86,13 @@ class TestController extends Controller
 
         // dd($users);
 
-        Mail::to('kartg0102@gmail.com')->send(new OrderShipped('hello'));
+        // Mail::to('kartg0102@gmail.com')->send(new OrderShipped('hello'));
+        DB::beginTransaction();
+
+        try {
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+        }
     }
 }
