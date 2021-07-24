@@ -25,7 +25,8 @@
                             <span class="badge bg-primary">{{ $blog->category->name }}</span>
                             <span>
                                 作者：<span class="font-weight-bold">{{ $blog->user->name }}</span>
-                                最新回復：{{ $blog->updated_at->diffForHumans() }}
+                                {{-- 最新回復：{{ $blog->updated_at->diffForHumans() }} --}}
+                                最新回復：{{ $blog->updated_at }}
                             </span>
                         </p>
                     </div>
