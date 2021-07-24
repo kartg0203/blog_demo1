@@ -7,7 +7,9 @@
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
         "prod": "npm run production",
-        "production": "mix --production"
+        "production": "mix --production",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index.js"
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.3.1",
