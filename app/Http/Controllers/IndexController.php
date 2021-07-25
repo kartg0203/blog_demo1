@@ -32,7 +32,8 @@ class IndexController extends Controller
             ->when($category_id, function ($query, $category_id) {
                 return $query->where('category_id', $category_id);
             })
-            ->where('status', 1)->with(['user:id,name', 'category:id,name'])->latest()
+            ->where('status', 1)
+            ->with(['user:id,name', 'category:id,name', 'comments'])->latest()
             ->paginate(7);
         // ->dd();
         // dd($blogs);
