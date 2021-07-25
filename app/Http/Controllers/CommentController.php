@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CommentRequest;
 use App\Mail\BlogCommentMail;
 use App\Models\Blog;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -27,7 +28,9 @@ class CommentController extends Controller
             $data = [
                 'user_avatar' => auth()->user()->avatar,
                 'user_name' => auth()->user()->name,
-                'comment' => $comment->content,
+                'comment_content' => $comment->content,
+                'comment_time' => $comment->updated_at->format('Y-m-d H:i:s'),
+                'comment_count' => $blog->comments()->count(),
             ];
             //發送郵件，通知作者有新的留言
             // 寫user就好，會自己去找mail，to() 裡面可以傳用戶model/郵箱地址/數組裡面寫多個郵箱地址

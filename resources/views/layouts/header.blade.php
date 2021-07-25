@@ -45,7 +45,7 @@
                                       <hr>
                                   </li>
                                   <li><a class="dropdown-item" href="{{ route('blogs.create') }}">發表文章</a></li>
-                                  <li><a class="dropdown-item" href="{{ route('user.info') }}">個人中心</a></li>
+                                  {{-- <li><a class="dropdown-item" href="{{ route('user.info') }}">個人中心</a></li> --}}
                                   <li><a class="dropdown-item" href="{{ route('user.avatar') }}">修改頭像</a></li>
                                   <li><a class="dropdown-item" href="{{ route('user.blog') }}">我的所有文章</a></li>
                                   <li>

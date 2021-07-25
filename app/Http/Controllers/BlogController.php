@@ -102,7 +102,7 @@ class BlogController extends Controller
         $blog->timestamps = true;
         // dd($blog);
 
-        $comments = $blog->comments()->with('user')->paginate(5);
+        $comments = $blog->comments()->with('user')->oldest()->paginate(5);
         // dump($comments);
 
         // dd($blog);

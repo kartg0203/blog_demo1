@@ -60,7 +60,10 @@
                                         https://fakeimg.pl/250x100/ @endif"
                                         class=" rounded-circle">
                                         <div class="comment-body ms-4">
-                                            <h5>{{ $comment->user->name }}</h5>
+                                            <h5>{{ $comment->user->name }}
+                                                <span
+                                                    class="fs-6 text-muted fw-normal ps-2">{{ $comment->updated_at }}</span>
+                                            </h5>
                                             {{ $comment->content }}
                                         </div>
                                     </li>
@@ -134,32 +137,41 @@
                 })
                 .then(res => {
                     if (res.data.state) {
-                        notify(res.data.msg, 'success');
                         const user_name = res.data.data['user_name'];
                         const user_avatar = res.data.data['user_avatar'];
-                        const comment = res.data.data['comment'];
+                        const comment = res.data.data['comment_content'];
+                        const time = res.data.data['comment_time'];
+                        const count = res.data.data['comment_count'];
                         // 將li放進ul裡面
-                        comment_list.insertAdjacentHTML("beforeend",
-                            `<li class = "list-group-item d-flex pt-3 pb-4">
+                        // console.log(time);
+                        if (count < 6) {
+                            notify(res.data.msg, 'success', false);
+                            comment_list.insertAdjacentHTML("beforeend",
+                                `<li class = "list-group-item d-flex pt-3 pb-4">
                                 <img style="width: 55px;height: 55px;" src="https://fakeimg.pl/250x100/"
                                     class="rounded-circle">
                                 <div class = "comment-body ms-4" >
-                                    <h5>${user_name}</h5>${comment}</div>
+                                    <h5>${user_name}<span class="fs-6 text-muted fw-normal ps-2">${time}</span></h5>
+                                    ${comment}</div>
                             </li>`);
-                        // 清空comment
-                        content.value = "";
 
-                        // 讓暫無留言不見
-                        if (empty) {
-                            empty.style.cssText = 'display:none;';
-                        }
+                            // 清空comment
+                            content.value = "";
 
-                        // 假如留言有is-invalid就remove掉
-                        if (content.classList.contains('is-invalid')) {
-                            content.classList.remove('is-invalid');
+                            // 讓暫無留言不見
+                            if (empty) {
+                                empty.style.cssText = 'display:none;';
+                            }
+
+                            // 假如留言有is-invalid就remove掉
+                            if (content.classList.contains('is-invalid')) {
+                                content.classList.remove('is-invalid');
+                            }
+                        } else {
+                            notify(res.data.msg, 'success', true);
                         }
                     } else {
-                        alert(res.data.msg);
+                        alert(res.data.state)
                     }
                 })
                 .catch(error => {

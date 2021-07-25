@@ -10,14 +10,21 @@
 
     {{-- 公用腳本 --}}
     <script>
-        function notify(title, icon) {
+        function notify(title, icon, isReload) {
             Swal.fire({
-                title,
-                // text: 'Do you want to continue',
-                icon,
-                confirmButtonColor: '#5cc482',
-                confirmButtonText: '確認',
-            });
+                    title,
+                    // text: 'Do you want to continue',
+                    icon,
+                    confirmButtonColor: '#5cc482',
+                    confirmButtonText: '確認',
+                })
+                .then(result => {
+                    if (isReload) {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
+                    }
+                });
         }
     </script>
     @yield('script')
