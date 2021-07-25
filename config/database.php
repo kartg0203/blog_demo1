@@ -18,7 +18,7 @@ return [
 
     // 'default' => env('DB_CONNECTION', 'mysql'),
     // 'default' => 'pgsql',
-    'default' => getenv('IS_IN_HEROKU') ? 'pgsql' : env('DB_CONNECTION', 'mysql'),
+    'default' => getenv('DATABASE_URL') ? 'pgsql' : env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
