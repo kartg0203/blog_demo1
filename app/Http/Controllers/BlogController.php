@@ -93,18 +93,20 @@ class BlogController extends Controller
      */
     public function show(Blog $blog)
     {
-        $blog = Blog::with('comments.user')->where('id', $blog->id)->first();
+        $blog = Blog::where('id', $blog->id)->first();
         // 因為每次更新人數，updated_at都會更新一次，為了避免這樣，所以先設為不更新
         $blog->timestamps = false;
+        // increment 自增
         $blog->increment('view');
         // 這裡要馬上開啟，因為timestamps為false時會變成string，我們有在blade調用時間方法(format之類的)，所以要馬上開啟，變回Carbon格式
         $blog->timestamps = true;
         // dd($blog);
 
-
+        $comments = $blog->comments()->with('user')->paginate(5);
+        // dump($comments);
 
         // dd($blog);
-        return view('blogs.show', ['categories' => $this->categories(), 'blog' => $blog]);
+        return view('blogs.show', ['categories' => $this->categories(), 'blog' => $blog, 'comments' => $comments]);
     }
 
     /**

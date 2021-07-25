@@ -54,7 +54,7 @@
                             </div>
                             {{-- <div class="card-body"> --}}
                             <ul class="list-group list-group-flush" id="comment-list">
-                                @forelse ($blog->comments as $comment)
+                                @forelse ($comments as $comment)
                                     <li class="list-group-item d-flex pt-3 pb-4">
                                     <img style="width: 55px;height: 55px;" src="@if ($comment->user->avatar) {{ asset('storage/' . $comment->user->avatar) }} @else
                                         https://fakeimg.pl/250x100/ @endif"
@@ -79,6 +79,7 @@
                             </ul>
                             {{-- </div> --}}
                         </div>
+                        <div class="mt-3 d-flex justify-content-center">{{ $comments->links() }}</div>
                     </div>
                 </div>
                 {{-- 回復 --}}
