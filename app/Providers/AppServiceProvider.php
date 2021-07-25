@@ -6,6 +6,8 @@ use App\Models\Blog;
 use App\Observers\BlogObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +28,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if (App::isProduction()) {
+            URL::forceScheme('https');
+        }
         // 分頁使用Bootstrap
         Paginator::useBootstrap();
 
