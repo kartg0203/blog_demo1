@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Blog;
 use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CommentFactory extends Factory
@@ -23,8 +25,8 @@ class CommentFactory extends Factory
     {
         $data = $this->faker->dateTimeBetween('-5 years');
         return [
-            'user_id' => $this->faker->numberBetween(1, 10),
-            'blog_id' => $this->faker->numberBetween(1, 20),
+            'user_id' => $this->faker->numberBetween(1, User::count()),
+            'blog_id' => $this->faker->numberBetween(1, Blog::count()),
             'content' => $this->faker->text(rand(20, 100)),
             'created_at' => $data,
             'updated_at' => $data,
