@@ -24,9 +24,9 @@ class BlogRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|min:4|max:32',
+            'title' => 'required|min:4|max:40',
             'category_id' => 'required|gt:0',
-            'content' => 'required|min:5'
+            'content' => 'required|min:10'
         ];
     }
 
