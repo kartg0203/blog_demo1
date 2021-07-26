@@ -56,10 +56,12 @@
                             <ul class="list-group list-group-flush" id="comment-list">
                                 @forelse ($comments as $comment)
                                     <li class="list-group-item d-flex pt-3 pb-4">
-                                    <img style="width: 55px;height: 55px;" src="@if ($comment->user->avatar) {{ asset('storage/' . $comment->user->avatar) }} @else
-                                        https://fakeimg.pl/250x100/ @endif"
-                                        class=" rounded-circle">
-                                        <div class="comment-body ms-4">
+                                        <div class="imgBox">
+                                        <img style="width: 55px;height: 55px;" src="@if ($comment->user->avatar) {{ url('storage/' . $comment->user->avatar) }} @else
+                                            https://fakeimg.pl/250x100/ @endif"
+                                            class=" rounded-circle me-4">
+                                        </div>
+                                        <div class="comment-body">
                                             <h5>{{ $comment->user->name }}
                                                 <span
                                                     class="fs-6 text-muted fw-normal ps-2">{{ $comment->updated_at }}</span>
