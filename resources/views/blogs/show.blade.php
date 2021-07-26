@@ -57,7 +57,7 @@
                                 @forelse ($comments as $comment)
                                     <li class="list-group-item d-flex pt-3 pb-4">
                                         <div class="imgBox">
-                                        <img style="width: 55px;height: 55px;" src="@if ($comment->user->avatar) {{ url('storage/' . $comment->user->avatar) }} @else
+                                        <img style="width: 55px;height: 55px;" src="@if ($comment->user->avatar) {{ asset('storage/' . $comment->user->avatar) }} @else
                                             https://fakeimg.pl/250x100/ @endif"
                                             class=" rounded-circle me-4">
                                         </div>
