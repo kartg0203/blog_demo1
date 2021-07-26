@@ -59,7 +59,7 @@
                                         <div class="imgBox">
                                         <img style="width: 55px;height: 55px;" src="@if ($comment->user->avatar) {{ asset('storage/' . $comment->user->avatar) }} @else
                                             https://fakeimg.pl/250x100/ @endif"
-                                            class=" rounded-circle me-4">
+                                            class="rounded-circle me-4">
                                         </div>
                                         <div class="comment-body">
                                             <h5>{{ $comment->user->name }}
